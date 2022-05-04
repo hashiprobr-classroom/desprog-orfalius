@@ -1,0 +1,11 @@
+Estrutura
+•	Explicar o problema
+	o	Roteiro do slide da Carol
+•	Por que usar programação dinâmica
+	o	Roteiro do slide da Carol/Tiago
+•	Exemplo teórico sem código primeiro
+	o	Mochila exemplo de 4 kg com itens de 1kg, 2kg e 3kg com 10, 20 e 30
+	o	Simular um exemplo via tabela e demonstrar o porquê da recursão
+•	Deduzir o código recursivo
+	o	Passo a passo
+•	Complexidade
