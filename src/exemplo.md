@@ -29,6 +29,9 @@ Opções de Algoritmo
 Texto da Carol/Tiago
 Explicar pq usar a dinâmica
 
+O problema da mochila é um problema de otimização, com aplicação real para empresas, e logo precisa de uma visão realista na hora de escolher qual algoritmo se deve usar para resolvê-lo. Embora haja algoritmos com melhor desempenho no que se refere à velocidade com que o programa roda, o algoritmo dinâmico é o mais confiável, pois ele sempre retorna a melhor resposta.
+E como a confiabilidade dos resultados obtidos são muito valorizados por gestores, esse algoritmo é o melhor, principalmente em casos pequenos.
+
 ??? Questão 2
 
 Quais devem ser os parâmetros que a função deverá receber?
