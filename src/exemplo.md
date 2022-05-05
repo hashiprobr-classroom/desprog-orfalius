@@ -155,6 +155,8 @@ Não passe para frente antes de entender como funciona a recursão na tabela.
 
 ???
 
+Agora que você já entendeu a como funciona, está na hora de completar a tabela!
+
 ??? Questão 6
 
 Preencha a última célula restante. Qual deve ser o(s) item(ns) a ser(em) incluido(s) e qual é o valor final da mochila? Por quê?
