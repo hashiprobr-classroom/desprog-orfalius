@@ -76,6 +76,8 @@ Para fins de simplificação, considera-se que a posição dos itens na lista de
 
 ???
 
+Agora que temos a função de chamada, antes de prosseguirmos com o desenvolvimento para a função, vamos primeiro entender o que está acontecendo.
+
 Como o algoritmo é recursivo, isso implica calcular subproblemas derivados do problema principal e reutilizar esses resultados no futuro para fins de comparação. Isso funciona através do preenchimento de uma matriz limite x itens:
 
 |                             | 0 kg     | 1 kg     | 2 kg     | 3 kg     | 4 kg     |
@@ -176,78 +178,113 @@ O valor final da mochila é R$ 45,00 com peso de 4 kg.
 
 ???
 
-Tutorial OG
----------
+Agora que você já deve ter entendido como funciona o problema da mochila, você já deve ter uma ideia de como desenvolvê-lo: definir a condição inicial, e então usar de recursão para checar sempre qual é o caso de maior valor: **com** ou **sem** o objeto em questão, certo?
 
-Para criar um parágrafo, basta escrever um texto contínuo, sem pular linhas.
+Bom...Não nos apressemos. Primeiro, vamos ver se você entendeu essa versão Naive do nosso algoritmo.
 
-Você também pode criar
+??? Questão 7
 
-1. listas;
-
-2. ordenadas,
-
-assim como
-
-* listas;
-
-* não-ordenadas
-
-e imagens. Lembre que todas as imagens devem estar em uma subpasta *img*.
-
-![](logo.png)
-
-Para tabelas, usa-se a [notação do
-MultiMarkdown](https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html),
-que é muito flexível. Vale a pena abrir esse link para saber todas as
-possibilidades.
-
-| coluna a | coluna b |
-|----------|----------|
-| 1        | 2        |
-
-Ao longo de um texto, você pode usar *itálico*, **negrito**, {red}(vermelho) e
-[[tecla]]. Também pode usar uma equação LaTeX: $f(n) \leq g(n)$. Se for muito
-grande, você pode isolá-la em um parágrafo.
-
-$$\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1$$
-
-Para inserir uma animação, use `md :` seguido do nome de uma pasta onde as
-imagens estão. Essa pasta também deve estar em *img*.
-
-:bubble
-
-Você também pode inserir código, inclusive especificando a linguagem.
-
-``` py
-def f():
-    print('hello world')
-```
-
-``` c
-void f() {
-    printf("hello world\n");
-}
-```
-
-Se não especificar nenhuma, o código fica com colorização de terminal.
-
-```
-hello world
-```
-
-
-!!! Aviso
-Este é um exemplo de aviso, entre `md !!!`.
-!!!
-
-
-??? Exercício
-
-Este é um exemplo de exercício, entre `md ???`.
+Desenvolva a recursão para resolver o problema da mochila.
 
 ::: Gabarito
-Este é um exemplo de gabarito, entre `md :::`.
+``` c
+int Mochila(int L, int p[], int val[], int n)
+{
+    // Condição Inicial
+    if (n == 0 || L == 0)
+        return 0;
+ 
+    // Devolve o maior valor dentre dois casos:
+    // (1) incluindo o n-ésimo item na mochila
+    // (2) não incluindo o n-ésimo item na mochila
+    return maior_valor(
+        val[n - 1] + Mochila(L - p[n - 1], p, val, n - 1),
+                                Mochila(L, p, val, n - 1));
+}
+```
+:::
+
+???
+
+Notou algo de errado com essa função?
+
+Ela não leva em conta um dos fatores que foi mencionado no começo da aula: o que acontece se o limite de peso for ultrapassado por um objeto.
+
+??? Questão 8
+
+Refaça a Questão 7, levando em conta o caso em que um objeto ultrapassa o limite de peso.
+
+::: Gabarito
+``` c
+int Mochila(int L, int p[], int val[], int n)
+{
+    // Condição Inicial
+    if (n == 0 || L == 0)
+        return 0;
+
+    // Se o peso do n-ésimo item for maior do que
+    // a capacdade L da mochila, então esse item
+    // não pode ser incluído na solução otimizada
+    if (p[n - 1] > L)
+        return Mochila(L, p, val, n - 1);
+ 
+    // Devolve o maior valor dentre dois casos:
+    // (1) incluindo o n-ésimo item na mochila
+    // (2) não incluindo o n-ésimo item na mochila
+    return maior_valor(
+        val[n - 1] + Mochila(L - p[n - 1], p, val, n - 1),
+                                Mochila(L, p, val, n - 1));
+}
+```
+:::
+
+???
+
+Melhorou, mas o objetivo dessa aula é resolver o problema da mochila usando de **Programação Dinâmica**, e não usando de recursão simples, que apesar de não gastar muita memória, tem um tempo de execução muito alto, sendo sua complexidade O(2**n), devido a repetição desnecessária.
+
+Com o uso de programação dinâmica para resolver o problema, essa repetição pode ser evitada criando um array temporário **temp**.
+
+??? Questão 9
+
+Usando tudo o que você aprendeu nessa aula, desenvolva o algoritmo de Programação Dinâmica usado na resolução do problema da mochila. 
+
+::: Gabarito
+``` c
+int Mochila(int L, int p[], int val[], int n)
+{
+    int i, w;
+    int K[n + 1][L + 1];
+ 
+    // Construindo array K[][] de baixo para cima
+    for (i = 0; i <= n; i++)
+    {
+        for (w = 0; w <= L; w++)
+        {
+            if (i == 0 || w == 0)
+                K[i][w] = 0;
+            else if (p[i - 1] <= w)
+                K[i][w] = max(val[i - 1]
+                          + K[i - 1][w - p[i - 1]], K[i - 1][w]);
+            else
+                K[i][w] = K[i - 1][w];
+        }
+    }
+ 
+    return K[n][L];
+}
+```
+:::
+
+???
+
+??? Questão 10
+
+Agora que temos o nosso algoritmo, determine a sua complexidade.
+
+::: Gabarito
+A complexidade temporal e de uso de memória auxiliar do nosso algoritmo é O(n) em ambos os casos, o que significa que se uma empresa tiver como prioridade maior a velocidade ou o quanto de memória é gasta, ele poderia acabar não sendo escolhido. 
+
+Mas por ser um algoritmo estável, se uma empresa quiser dados confiáveis acima de tempo ou uso de memória, o que geralmente é o que ocorre em casos envolvendo objetos de valor muito alto, esse é o melhor algoritmo para esse serviço.
 :::
 
 ???
