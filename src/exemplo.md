@@ -287,3 +287,7 @@ Complexidade do algoritmo de Wilson
 Pelo fato de ser um programa probabilistico, a complexidade do algoritmo de Wilson não é algo simples de ser definida, entretanto podemos chegar a um numero esperado médio que leva para o grafo ser preenchido.
 
 A probabilidade do programa ficar preso em um loop infinito é nula, requerindo que nunca encontre algum ponto pré definido o que é impossível já que sempre existe esta probabilidade. A probabilidade de percorrer apenas algumas vezes todos os vértices é maior, e conforme o grafo é preenchido ela só cresce. Assim é de se esperar que o tempo que leva para percorrer é diretamente proporcional ao tamanho do grafo portanto pelas regras de simplificação nos que a conclusão que a complexidade do algorítmo de Wilson é O(n).
+
+Para compravar a análise empirica, podemos ver o gráfico de complexidade de Wilson comparado com outro algoritmo de geração de labirintos: **Aldous-Broder**.
+
+![](complexImg.png)
