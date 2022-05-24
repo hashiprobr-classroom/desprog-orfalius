@@ -216,10 +216,37 @@ void proximo_vertice(vertice *atual, stack_int *s){
 Algoritmo de Wilson
 ---------
 
-Vamos introduzir agora a ideia do labirinto perfeito, onde todos os seus pontos são acessíveis, e 
-entre dois deles há apenas um caminho. 
+EXPLICAR MELHOR LABIRINTOS PERFEITOS, O QUE SÃO E PORQUE É BOM -Check
+---------
+COMPARAR WILSON E ALDOUS-BRODER
+---------
+EXPLICAR VELOCIDADE DO WILSON PARA O ALDOUS
+---------
+
+O algoritmo de Broder, realiza várias operações desnecessárias se considerarmos que os vértices
+não preenchidos não precisam ser mais percorridos pelo código novamente. Vamos ver um método que 
+apenas percorre pelos vértices intocados.
+
+Antes de tudo uma mudança importante que vamos adotar é que agora ao invés de pensar apenas nos "passos" do algoritmo,
+vamos ter que pensar em seu "caminho", ou seja o conjunto de passos que juntos serão preenchidos.
+
+INSERIR FOTOS EXPLICATIVAS
+---------
 
 ??? Checkpoint 8
+
+Um problema, agora percorrendo um caminho apenas pelos vértices não preenchidos como podemos conectar eles ao resto do labirinto?
+
+::: Gabarito
+Podemos criar uma regra que quando esse caminho encontra o resto do labirinto ele é preenchido.
+:::
+
+???
+
+Com a idéia básica do caminho do *random walk*, vamos introduzir agora a ideia do labirinto perfeito, onde todos os seus pontos são acessíveis, e 
+entre dois deles há apenas um caminho. 
+
+??? Checkpoint 9
 
 Pensando na ideia acima, um algoritmo usando *random walk* **sempre** geraria labirintos perfeitos?
 
@@ -231,62 +258,63 @@ de uma rota existisse entre dois pontos!
 ???
 
 Como poderiamos prevenir a criação de loops? Precisariamos saber quando um vértice a ser preenchido cruza outro 
-já definido e impedir que se encontrem.
-
-??? Checkpoint 9
-
-A ideia acima é um bom começo, mas apresenta um problema, qual?
-
-::: Gabarito
-Pode ocorrer o caso em que o vértice está "encurralado" e não tem para onde ir, entrando em um loop infinito. 
-:::
-
-???
-
-Para começar a resolver este impasse mudamos um pouco o funcionamento do programa, ao invés de ir preenchendo um caminho
-de uma raiz definida e avançando vértice por vértice, podemos escolher qualquer um marcado como vazio e ir construindo um
-caminho, ainda não preenchido, até cruzarmos um vértice já definido que é quando preenchemos todo o caminho.
+já definido e impedir que se encontrem apagando a operação.
 
 ??? Checkpoint 10
 
-A esquemática do algoritmo já esta começando a ser formada, porém ainda não resolvemos o problema do caminho ser
-"encurralado" em um loop com si mesmo, como resolveriamos isso?
+A ideia acima é um bom começo, mas apresenta um problema, qual? Como resolvê-lo?
 
 ::: Gabarito
-Quando ocorre o cruzamento apagamos o loop e então seguimos o caminho a partir de sua base. 
+Pode ocorrer o caso em que o vértice está "encurralado" e não tem para onde ir, entrando em um loop infinito. Para resolver o problema quando ocorre o cruzamento apagamos o loop e então seguimos o caminho a partir de sua base. 
 :::
 
 ???
 
 Esta ideia que desenvolvemos é o *loop-erased random walk*, a peça vital do algoritmo de Wilson.
 
-Abaixo temos uma demonstração do *loop-erased random walk* em ação.
+Abaixo temos uma demonstração do *loop-erased random walk* em ação, caso não tenha entendido algum passo retorne para os checkpoints acima.
 
 :loopErasedRandomWalk
 
 A ideia de David Bruce Wilson para um algoritmo deste tipo é resumidamente, um programa que recebe
 como entrada um grafo e escolhe um vértice não preenchido aleatório de início, então começa o 
-*loop-erased random walk*. O processo se repete até obter-se um labirinto completamente preenchido.
+*loop-erased random walk*. O processo se repete até obter-se uma arvore geradora completamente preenchida.
 
 As vantagens dessa estratégia é que como resultado obtem-se um labirinto perfeito, ou seja, todos os vértices são acessíveis, e 
 entre dois deles há apenas um caminho. Outro benefício do algoritmo de Wilson é que pelo caminho ser definido aleatóriamente
-ele é imparcial entre caminhos curtos ou longos, um problema de alguns outro algoritmos de geração de labirintos como se pode ver
-nas duas figuras abaixo:
+ele gera labirintos uniformes, ou seja não existe viés para tipos especificos de árvores geradoras, um problema presente em outros 
+algoritmos de geração de labirintos como se pode ver nas duas figuras abaixo:
 
 ![](DepthFirstSearchMaze.png)
 
 ![](WilsonMaze.png)
 
-A acima temos um labirinto gerado pelo algoritmo *depth-first search* que tem um viés para gerar corredores longos e em baixo temos o algoritmo de Wilson.
+A acima temos um labirinto gerado pelo algoritmo *depth-first search* que tem um viés para gerar labirintos com corredores longos e em baixo temos o algoritmo de Wilson.
 
-Agora que tem uma ideia de como o algorimo funciona que tal ver uma animação dele em ação? este [site](https://bl.ocks.org/mbostock/11357811) contém um código 
+"Mas porque a geração de labirintos uniformes é importante?" você pode estar se perguntando, bem, imagine que você é um desenvolvedor
+de um jogo e quer fazer um algoritmo de pathfinding de um NPC para um jogo onde os mapas são gerados randômicamente. 
+Como garantir que a entidade vai sempre pegar o caminho esperado? Esse parte é clara, testando oras! 
+
+É aí que entra a importanciancia do labirinto uniforme, se as a probabilidade de acabar o programa com qualquer árvore geradora é a mesma, então você pode
+garantir que seu programa funciona bem para um leque abrangente de casos, sem correr o risco de acabar com a impressão de que o código é melhor ou pior do
+que realmente é, como seria o caso de um algoritmo gerador de labirintos com algum tipo de viés.     
+
+Agora que tem uma ideia de como o algorimo funciona, que tal ver uma animação dele em ação? este [site](https://bl.ocks.org/mbostock/11357811) contém um código 
 que toda vez que você carrega a página um novo labirinto começa a ser gerado.
 
-Complexidade do algoritmo de Wilson
+Complexidade do algoritmo de Wilson e comparação com Aldous-Broder
 ---------
-Pelo fato de ser um programa probabilistico, a complexidade do algoritmo de Wilson não é algo simples de ser definida, entretanto podemos chegar a um numero esperado médio que leva para o grafo ser preenchido.
+Pelo fato de ser um programa probabilistico, a complexidade do algoritmo de Wilson não é algo simples de ser definida, então vamos colocar os números de lado no momento
+("Ufa, engenharia já tem números o suficiente.") e compará-lo com o algoritmo que vimos anteriormente, o algoritmo de Aldous-Broder. De ínicio vamos falar de sua similaridade, ambos utilizam alguma forma de *random walk* para ir preenchendo a árvore geradora, assim, no pior dos casos ambos vão ter a complexidade igual, porém isso
+não significa que seus tempo de rodar são iguais. 
 
-A probabilidade do programa ficar preso em um loop infinito é nula, requerindo que nunca encontre algum ponto pré definido o que é impossível já que sempre existe esta probabilidade. A probabilidade de percorrer apenas algumas vezes todos os vértices é maior, e conforme o grafo é preenchido ela só cresce. Assim é de se esperar que o tempo que leva para percorrer é diretamente proporcional ao tamanho do grafo portanto pelas regras de simplificação nos que a conclusão que a complexidade do algorítmo de Wilson é O(n).
+Para perceber isso basta analisar suas diferenças, o algoritmo de Aldous-Broder caminha tanto pelas células preenchidas quanto aquelas vazias, preenchendo-as no processo. Isso faz com que o preenchimento seja bem rápido no começo, já que há várias células vazias e poucas preenchidas, o que reduz as chances de já passar por caminho já traçado. Essa mesma qualidade causa o oposto quando esta próximo do fim, quando a maior parte do labirinto já está preenchida o que acaba resultando em várias caminhadas "sem rumo" onde nenhuma célula é adicionada ao labirinto.
+
+O algoritmo de Wilson tem algumas mudanças como vimos, primeiramente os caminhos são apenas traçados por células vazias, só sendo preenchidas quando este encontra alguma célula definida, isto tem o comportamento inverso do Aldous-Broder, sendo mais devagar no começo, quando uma pequena parte do labirinto esta definida sendo difícil de ser encontrada pelo caminho do *loop-erased random walk*, e sendo muito mais rápida no final, quando as chances de encontrar um vértice já definido são muito maiores. 
+
+Entretando embora os comportamentos sejam opostos não significa que ambos demorem o mesmo. O algoritmo de Wilson sempre está diminuindo as suas células disponíveis para percorrer com todas sendo válidas conforme vai preenchendo a árvore geradora. Enquanto o Aldous-Broder sempre tem ```n``` espaços para percorrer com 
+o número de células válidas a serem preenchidas diminuindo gradativamente. Isso resulta que, na prática, que o algoritmo de Wilson seja bem mais rápido que o algoritmo de Aldous-Broder tornando-o mais atrativo já que ambos também apresentam as mesmas caracteristicas benéficas de gerarem labirintos perfeitos e com chances uniformes de serem gerados.
+
 
 Para compravar a análise empirica, podemos ver o gráfico de complexidade de Wilson comparado com outro algoritmo de geração de labirintos: **Aldous-Broder**.
 
