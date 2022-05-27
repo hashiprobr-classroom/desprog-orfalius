@@ -220,12 +220,21 @@ O algoritmo de Broder, realiza várias operações desnecessárias se considerar
 preenchidos não precisam ser mais percorridos pelo código novamente. Vamos ver um método que 
 apenas percorre pelos vértices intocados.
 
-Antes de tudo uma mudança importante que vamos adotar é que agora ao invés de pensar apenas nos "passos" do algoritmo,
+Outra mudança importante que vamos adotar é que agora ao invés de pensar apenas nos "passos" do algoritmo,
 vamos ter que pensar em seu "caminho", ou seja o conjunto de passos que juntos serão preenchidos.
+
+Aqui temos o jeito antigo de preencher como visto no algoritmo de Aldous Broder onde o vértice é preenchido assim que 
+chegamos nele
+
+:aldousWay
+
+O nosso novo algoritmo vai traçar um **{pink}(caminho)**, para depois todos esses pontos serem preenchidos.
+
+:wilsonWay
 
 ??? Checkpoint 8
 
-Um problema, agora percorrendo um caminho apenas pelos vértices não preenchidos como podemos conectar eles ao resto do labirinto?
+Um problema que você deve ter percebido, percorrendo um caminho apenas pelos vértices não preenchidos como podemos conectar eles ao resto do labirinto?
 
 ::: Gabarito
 Podemos criar uma regra que quando esse caminho encontra o resto do labirinto ele é preenchido.
@@ -289,8 +298,9 @@ Como garantir que a entidade vai sempre pegar o caminho esperado? Esse parte é 
 garantir que seu programa funciona bem para um leque abrangente de casos, sem correr o risco de acabar com a impressão de que o código é melhor ou pior do
 que realmente é, como seria o caso de um algoritmo gerador de labirintos com algum tipo de viés.     
 
-Agora que tem uma ideia de como o algorimo funciona, que tal ver uma animação dele em ação? este [site](https://bl.ocks.org/mbostock/11357811) contém um código 
-que toda vez que você carrega a página um novo labirinto começa a ser gerado.
+Agora que tem uma ideia de como o algorimo funciona, que tal ver uma animação dele em ação? Temos o GIF abaixo e este [site](https://bl.ocks.org/mbostock/11357811) que contém um código que gera um novo labirinto toda vez que você carrega a tela.
+
+![](wilson.gif)
 
 Complexidade do algoritmo de Wilson e comparação com Aldous-Broder
 ---------
