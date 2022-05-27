@@ -216,22 +216,12 @@ void proximo_vertice(vertice *atual, stack_int *s){
 Algoritmo de Wilson
 ---------
 
-EXPLICAR MELHOR LABIRINTOS PERFEITOS, O QUE SÃO E PORQUE É BOM -Check
----------
-COMPARAR WILSON E ALDOUS-BRODER
----------
-EXPLICAR VELOCIDADE DO WILSON PARA O ALDOUS
----------
-
 O algoritmo de Broder, realiza várias operações desnecessárias se considerarmos que os vértices
-não preenchidos não precisam ser mais percorridos pelo código novamente. Vamos ver um método que 
+preenchidos não precisam ser mais percorridos pelo código novamente. Vamos ver um método que 
 apenas percorre pelos vértices intocados.
 
 Antes de tudo uma mudança importante que vamos adotar é que agora ao invés de pensar apenas nos "passos" do algoritmo,
 vamos ter que pensar em seu "caminho", ou seja o conjunto de passos que juntos serão preenchidos.
-
-INSERIR FOTOS EXPLICATIVAS
----------
 
 ??? Checkpoint 8
 
