@@ -212,6 +212,32 @@ void proximo_vertice(vertice *atual, stack_int *s){
 
 ???
 
+Algoritmo de Aldous-Broder
+---------
+
+Depois que entendemos e trabalhamos um pouco com o *Random Walk*, vamos começar pelo algoritmo de **{green}(Aldous-Broder)**.
+
+Para garantir a aleatoriedade do sistema, este algoritmo escolhe aleatoriamente qualquer direção a percorrer, ou seja, não existe nenhuma proibição de avanço.
+
+Pensando na estrutura do *Random Walk*, no algoritmo de Broder a escolha de que caminho seguir **não é levado em consideração os vizinhos já percorridos ou paredes criadas**, e, por isso, na maioria das vezes existem 4 caminhos possíveis para seguir.
+
+??? Checkpoint X
+
+Pensando no funcionamento aleatório do sistema, qual é o grande problema causado por este quando a malha do labirinto é muito grande?
+
+::: Gabarito
+
+Pensando em uma malha maior de vértices disponíveis, embora ele percorra por vértices não visitados rapidamente no início, com o passar das iterações fica cada vez **mais difícil de encontrar um vértice que não esteja preenchido** de modo aleatório, o que indica o {red}(crescimento exponencial) dessa descoberta.
+
+:::
+???
+
+Fica difícil de entender como este funciona e como essa aleatoriedade se torna preocupante com o tempo. Por isso recomendamos que vocês percebam este fator [neste vídeo](https://www.youtube.com/watch?v=-EZwuFdkJes&ab_channel=Ferenc).
+
+Em relação ao funcionamento de preenchimento, quando o vértice a ser encontrado ainda não foi visitado, o algoritmo cria o caminho baseado naquele tomado para lá chegar. Caso esse vértice já tenha sido visitado, a parede continuará como separados do caminho.
+
+![](AldousBroder.png)
+
 
 Algoritmo de Wilson
 ---------
