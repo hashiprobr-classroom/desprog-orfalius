@@ -44,7 +44,6 @@ Ou seja, uma Árvore Geradora é quase a mesma coisa que um grafo simples, mas e
 2. Todos os vértices possuem a **quantidade mínima** de arestas (não podem existir "ciclos").
     - Não pode ser possível ir de um vértice ao outro de duas maneiras diferentes.
 
-Ou seja, se contássemos o numero total de arestas de uma árvore geradoras, ela sempre será igual a *__n - 1__*, onde *__n__* seria o número de vértices.
 
 ![](spanning_tree_gif.gif)
 
@@ -65,7 +64,7 @@ Dado abaixo os vértices de um grafo, como poderiam ser conectados de forma a se
 ![](nodes.png)
 
 ::: Gabarito
-Aqui está uma solução possível:
+Aqui está **uma** solução possível:
 
 :spanning_tree
 :::
