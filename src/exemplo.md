@@ -90,6 +90,8 @@ E como vamos montar o **grafo** para este algoritmo?
 
 Para a construção de algoritmos, o grafo possui uma estrutura em formato de {red}(quadriculado), ou seja, os vértices são os centros dos quadrados, e as arestas entre quadrados são as arestas do grafo caso **não existam** ou indicam que não há ligação, paredes, **caso existam**.
 
+![](Grafo_labirinto.png)
+
 Para o {blue}(input), todas essas arestas entre os vérticies do grafo existem, ou seja, **todo vértice sabe quem são seus vizinhos**, e também possui uma variável responsável por saber se este já foi visitado ou não.
 
 ``` c
@@ -99,23 +101,11 @@ typedef struct {
 } vertice;
 ```
 
-??? Checkpoint 4:
+Nosso objetivo agora é construir os caminhos que serão passagens e esconder aqueles que não são, de modo a se transformarem em paredes. Para isso, vamos pensar em um exemplo muito simples na vida real:
 
-Sabendo que para construir um labirinto os caminhos devem ser escolhidos aleatoriamente para garantir que existam vários tipos de construção para a mesma estrutura, como você construiria a função que percorre pelos vértices do grafo para marcar o caminho?
+Em um quarto muito amplo, precisamos construir nossas paredes do labirinto, mas só podemos andar nas **direções cardeais**. Para prosseguir, devemos escolher uma direção que {red}(não) seja parede ou um ponto no quarto que já se passou. Quando o movimento ocorrer, deve-se erguer uma parede para todo o resto do quarto que não conhecemos ao realizar o movimento. Essa escolha de movimento deve ser aleatória, como tentativa de ser o mais difícil possível de encontrar uma saída.
 
-**Obs. 1:** Neste momento não é necessário desenvolver o código, somente uma resposta de como ele funcionaria.
-
-**Obs. 2:** Esta função deve ser pensada para rodar por vértice, então pense como funcionaria dentro de um deles.
-
-::: Gabarito
-
-O código deve, a partir de um determinado vértice, escolher `md aleatoriamente` um **vizinho** que será o próximo a ser analisado, marcando o atual como um vértice já visitado. Depois devemos redefinir os vizinhos para serem somente o anterior a ele e o próximo escolhido, de modo a formar o caminho por onde o labirinto passa.
-
-:::
-
-???
-
-Este conceito de varredura aleatória para a construção de labirintos é conhecido como [Random Walk](https://en.wikipedia.org/wiki/Random_walk), mas possui uma diferença:
+Este processo de andar aleatóriamente e ir construindo paredes é conhecido como [Random Walk](https://en.wikipedia.org/wiki/Random_walk). Mas para a nossa aplicação isso não é suficiente.
 
 ??? Checkpoint 5:
 
@@ -135,78 +125,23 @@ Agora que a ideia do percurso foi montado, a animação abaixo mostra o funciona
 
 :randomWalk
 
+Esta construção de ligações sequenciais entre os elementos, garantindo a existência de um só caminho entre dois pontos, cria, ao final, uma árvore geradora!
+
 !!! Atenção
 
-Não continue pelo handout até entender completamente a ideia do algoritmo, qualquer dúvida não hesite em pedir ajuda
+Não continue pelo handout até entender completamente a ideia de labirinto e como pensar em sua construção, qualquer dúvida não hesite em pedir ajuda
 
 !!!
 
 ----------------------------------------------------------------------------
 
-Agora, com a ideia do algoritmo compreendida, vamos montar o **{red}(código)**!
+**Agora vamos pensar...**
 
-Pensando em toda a construção feita até agora sobre este algorítmo, vamos dividir também as funções do código. A que estamos particularmente interessados é na procura dos vértices e a sequência aleatória do percurso.
+A ideia do RandomWalk é interessante, porém, se você testar construir alguns labirintos diferentes, vai se deparar com um problema, existe um padrão que nós não queremos: este algoritmo *sem querer* tem a preferência pela construção de `md caminhos longos`.
 
-??? Checkpoint 6
+Isso é um problema porque estamos procurando por algoritmos **{green}(perfeitos)**, ou seja, assim como na árvore geradora uniforme, devem existir **chances iguais** para a construção de `md qualquer configuração` de caminhos possíveis. Como o algoritmo possui uma preferência, essa regra não é mais válida!
 
-Construa a função **{green}(proximo_vertice(vertice *atual))** para procurar no vértice atual os vizinhos disponíveis e escolher aleartoriamente, entre estes, qual é o próximo vértice no caminho do labirinto e substituir o vértice atual por esse selecionado.
-
-**DICA:** Procure pela função ```c rand()``` para ajudar na escolha aleatória.
-
-::: Gabarito
-
-```c
-void proximo_vertice(vertice *atual){
-    possíveis vértices <- array para guardar possíveis vértices
-    para cada vizinho do array{
-        verificar se já foi visitado
-            se não, adicionar no array de possíveis vértices
-    }
-    usar a função rand() para escolher um aleatório
-    marca como visitado o atual
-    *atual <- próximo vértice
-    return
-}
-```
-:::
-
-???
-
-Avaliando a função, encontramos o problema já resolvido teoricamente, o que acontece quando {red}(não) temos nenhum vizinho disponível?
-
-??? Checkpoint 7
-
-Implemente na função a pilha de vértices percorridos
-
-**DICA:** Passe como argumento da função o ponteiro para a pilha
-
-::: Gabarito
-
-```c
-void proximo_vertice(vertice *atual, stack_int *s){
-    anterior <- recebe ponteiro do vértice anterior
-    possíveis vértices <- array para guardar possíveis vértices
-    n possíveis vértices <- número de possíveis vértices
-    para cada vizinho do array{
-        verificar se já foi visitado
-            se não, adicionar no array de possíveis vértices
-            n possíveis vértices ++
-    }
-    se n < 1{
-        vértice *atual = pop( *s )
-        return
-    }
-    usar a funcao rand() para escolher um aleatório
-    marca como visitado o atual
-    push(*s, *atual)
-    *atual <- próximo vértice
-    return
-}
-```
-
-:::
-
-???
+Para solucionar esse problema, foram então criados alguns algoritmos para evitar esse problema, um deles é o **Algoritmo de Wilson**, que será explicado mais à frente. Vamos entender um outro algoritmo primeiro, de modo a ser possível realizarmos algumas comparações; este é o *Algoritmo de Aldous-Broder*.
 
 Algoritmo de Aldous-Broder
 ---------
