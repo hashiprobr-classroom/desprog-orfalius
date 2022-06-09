@@ -217,7 +217,7 @@ Para garantir a aleatoriedade do sistema, este algoritmo escolhe aleatoriamente 
 
 Pensando na estrutura do *Random Walk*, no algoritmo de Broder a escolha de que caminho seguir **não é levado em consideração os vizinhos já percorridos ou paredes criadas**, e, por isso, na maioria das vezes existem 4 caminhos possíveis para seguir.
 
-??? Checkpoint X
+??? Checkpoint 8
 
 Pensando no funcionamento aleatório do sistema, qual é o grande problema causado por este quando a malha do labirinto é muito grande?
 
@@ -254,7 +254,7 @@ O nosso novo algoritmo vai traçar um **{pink}(caminho)**, para depois todos ess
 
 :wilsonWay
 
-??? Checkpoint 8
+??? Checkpoint 9
 
 Um problema que você deve ter percebido, percorrendo um caminho apenas pelos vértices não preenchidos como podemos conectar eles ao resto do labirinto?
 
@@ -267,7 +267,7 @@ Podemos criar uma regra que quando esse caminho encontra o resto do labirinto el
 Com a idéia básica do caminho do *random walk*, vamos introduzir agora a ideia do labirinto perfeito, onde todos os seus pontos são acessíveis, e 
 entre dois deles há apenas um caminho. 
 
-??? Checkpoint 9
+??? Checkpoint 10
 
 Pensando na ideia acima, um algoritmo usando *random walk* **sempre** geraria labirintos perfeitos?
 
@@ -281,7 +281,7 @@ de uma rota existisse entre dois pontos!
 Como poderiamos prevenir a criação de loops? Precisariamos saber quando um vértice a ser preenchido cruza outro 
 já definido e impedir que se encontrem apagando a operação.
 
-??? Checkpoint 10
+??? Checkpoint 11
 
 A ideia acima é um bom começo, mas apresenta um problema, qual? Como resolvê-lo?
 
