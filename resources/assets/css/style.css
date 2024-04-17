@@ -9,6 +9,8 @@ html {
     overflow-y: scroll;
     font-size: 16px;
     font-family: "Lora", "Symbola", serif;
+    background-color: #efefef;
+    color: #000000;
 }
 
 body {
@@ -191,6 +193,7 @@ blockquote {
 }
 
 blockquote.warning {
+    border-radius: .5rem;
     padding: 1rem 0 .25rem;
     background-color: #fff2cc;
     background-image: url("../icons/warning.svg");
@@ -226,7 +229,10 @@ blockquote.warning td > *:last-child {
 }
 
 blockquote.question {
-    border: .05rem solid #ccccff;
+    border-radius: .5rem;
+    background-color: #e5e5ff;
+    color: #000040;
+    overflow: hidden;
 }
 blockquote.question > * {
     margin-right: 1rem;
@@ -237,6 +243,7 @@ blockquote.question > p:first-child {
     margin-left: 0;
     padding: .5rem 1rem;
     font-weight: bold;
+    font-variant: small-caps;
     background-color: #ccccff;
 }
 
@@ -270,7 +277,7 @@ summary {
 }
 details.answer > summary,
 details.file > summary {
-    font-style: italic;
+    font-variant: small-caps;
     margin-bottom: 0;
 }
 details.answer[open] > summary {

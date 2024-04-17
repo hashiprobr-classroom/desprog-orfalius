@@ -64,6 +64,38 @@ const answerOptions = {
     marker: ':',
 };
 
+const nestedAnswerOptions = {
+    validate: function () {
+        return true;
+    },
+    render: function (tokens, idx) {
+        const tail = tokens[idx].info.trim();
+        const title = tail ? tail.split(/\s+/).join(' ') : 'Resposta';
+        if (tokens[idx].nesting === 1) {
+            return `<details class="answer">\n<summary>${title}</summary>\n`;
+        } else {
+            return '</details>\n';
+        }
+    },
+    marker: '~:',
+};
+
+const nestedNestedAnswerOptions = {
+    validate: function () {
+        return true;
+    },
+    render: function (tokens, idx) {
+        const tail = tokens[idx].info.trim();
+        const title = tail ? tail.split(/\s+/).join(' ') : 'Resposta';
+        if (tokens[idx].nesting === 1) {
+            return `<details class="answer">\n<summary>${title}</summary>\n`;
+        } else {
+            return '</details>\n';
+        }
+    },
+    marker: '~~:',
+};
+
 const fileOptions = {
     validate: function (params) {
         return params.trim();
@@ -315,7 +347,7 @@ function processParagraph(document, element, dirname, prefix) {
     } else if (innerHTML.startsWith('^') && !innerHTML.startsWith('^^')) {
         // SMALL
         const parent = element.parentElement;
-        if (parent.tagName === 'LI' && element.previousElementSibling === null && element.nextElementSibling === null) {
+        if (parent.tagName === 'LI' && element.previousElementSibling === null && (element.nextElementSibling === null || element.nextElementSibling.tagName === 'UL' || element.nextElementSibling.tagName === 'OL')) {
             parent.classList.add('small');
         } else {
             element.classList.add('small');
@@ -412,7 +444,7 @@ export default function (templatePath) {
 
             const includeOptions = {
                 root: dirname,
-                includeRe: /\{\{(.+?)\}\}/,
+                includeRe: /(?<!=)\{\{(.+?)\}\}/,
                 bracesAreOptional: true,
             };
 
@@ -430,6 +462,8 @@ export default function (templatePath) {
                 .use(container, 'warning', warningOptions)
                 .use(container, 'question', questionOptions)
                 .use(container, 'answer', answerOptions)
+                .use(container, 'nestedAnswer', nestedAnswerOptions)
+                .use(container, 'nestedNestedAnswer', nestedNestedAnswerOptions)
                 .use(container, 'file', fileOptions)
                 .use(container, 'check', checkOptions)
                 .use(container, 'section', sectionOptions)

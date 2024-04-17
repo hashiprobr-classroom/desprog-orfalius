@@ -1,4 +1,4 @@
-import del from 'del';
+import { deleteSync } from 'del';
 import gulp from 'gulp';
 import cache from 'gulp-cached';
 import BrowserSync from 'browser-sync';
@@ -16,8 +16,9 @@ const STATIC = ['src/**/*', '!src/**/vid/**/*', `!${SOURCE}`, `!${SNIPPETS}`];
 const ASSETS = ['resources/**/css/*', 'resources/**/fonts/*', 'resources/**/icons/*', 'resources/**/js/*'];
 
 
-function clean() {
-    return del(['site/*']);
+function clean(done) {
+    deleteSync(['site/*', 'site_private/*']);
+    done();
 }
 
 
@@ -46,6 +47,7 @@ function watch() {
     gulp.watch(STATIC, copyStatic).on('change', browserSync.reload);
     gulp.watch(ASSETS, copyAssets).on('change', browserSync.reload);
 }
+
 
 gulp.task('clean', clean);
 
